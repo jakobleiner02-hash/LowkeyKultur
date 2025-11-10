@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lowkey Kultur</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url("hintergrund.jpg") center/cover no-repeat fixed;
+      color: #fffaf2;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: "Merriweather", serif;
+      color: #ffdd93;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+    }
+
+    p { color: #fff7e1; text-shadow: 1px 1px 3px rgba(0,0,0,0.4); }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 25px;
+      background: linear-gradient(135deg, #f7a440, #e05b29);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, #ffc04b, #ef7330);
+    }
+
+    /* ===== MODERN START SCREEN ===== */
+    #startScreen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(135deg, #f8d98a, #e57b2d, #f1b84c);
+      background-size: 300% 300%;
+      animation: gradientShift 6s ease-in-out infinite;
+      z-index: 10000;
+      transition: opacity 0.8s ease;
+      color: #fff;
+    }
+
+    #startScreen h1 {
+      font-size: 2.8em;
+      margin-bottom: 15px;
+      opacity: 0;
+      animation: fadeInUp 1.5s forwards;
+    }
+
+    #startScreen p {
+      font-size: 1.1em;
+      opacity: 0;
+      animation: fadeInUp 2s forwards 0.3s;
+    }
+
+    #codeInput {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 1.2em;
+      border: 2px solid #fff;
+      border-radius: 25px;
+      text-align: center;
+      width: 140px;
+      outline: none;
+      background: rgba(255,255,255,0.9);
+      color: #333;
+      opacity: 0;
+      animation: fadeInUp 2s forwards 0.6s;
+    }
+
+    #enterBtn {
+      margin-top: 20px;
+      opacity: 0;
+      animation: fadeInUp 2s forwards 1s, pulse 2.5s infinite 3s;
+    }
+
+    #errorMsg {
+      margin-top: 10px;
+      color: #fff3f3;
+      background: rgba(255, 0, 0, 0.2);
+      padding: 6px 12px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(255,255,255,0.4); }
+      50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(255,255,255,0.6); }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ===== LOGO ===== */
+    #kommuneLogo {
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      width: 150px;
+      opacity: 0.85;
+      z-index: 10001;
+      transition: opacity 0.3s ease;
+    }
+    #kommuneLogo:hover { opacity: 1; }
+
+    /* ===== HERO ===== */
+    header.hero {
+      text-align: center;
+      padding: 130px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.55);
+      padding: 60px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .overlay h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+      color: #ffde8b;
+    }
+
+    section {
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    section.about {
+      background: rgba(255,255,255,0.85);
+      color: #222;
+      border-radius: 15px;
+      width: 80%;
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 50px 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    section.about h2 {
+      color: #e57b2d;
+      text-shadow: none;
+    }
+
+    section.about p {
+      color: #333;
+      text-shadow: none;
+    }
+
+    input, textarea {
+      width: 80%;
+      max-width: 400px;
+      padding: 10px;
+      margin: 10px 0;
+      border: 2px solid rgba(255, 210, 100, 0.7);
+      border-radius: 12px;
+      font-family: inherit;
+    }
+
+    .contact input, .contact textarea {
+      background: #fff;
+      color: #222;
+      border: 2px solid #f7a440;
+    }
+
+    textarea { height: 100px; }
+    input::placeholder, textarea::placeholder { color: #888; }
+
+    .video-gallery {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .video-gallery video {
+      width: 280px;
+      margin: 10px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+    footer {
+      background: rgba(0,0,0,0.6);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      border-top: 2px solid #e57b2d;
+    }
+
+    #infoSlide {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background: rgba(0,0,0,0.85);
+      color: #fff3e0;
+      padding: 60px 30px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      text-align: center;
+      z-index: 9999;
+    }
+
+    #backBtn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #e57b2d;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #backBtn:hover { background: #f19d52; }
+  </style>
+</head>
+
+<body>
+  <img src="Haderslev Kommune.png" id="kommuneLogo" alt="Haderslev Kommune Logo">
+
+  <div id="startScreen">
+    <h1>Welcome to Lowkey Kultur</h1>
+    <p>Please enter the access code:</p>
+    <input type="password" id="codeInput" maxlength="4" placeholder="****">
+    <button id="enterBtn" class="btn">Enter</button>
+    <p id="errorMsg">Incorrect code. Please try again.</p>
+  </div>
+
+  <header class="hero">
+    <div class="overlay">
+      <h1>Lowkey Kultur</h1>
+      <p>Share your culture with the world</p>
+      <a href="#upload" class="btn">Get Started</a>
+      <button id="infoBtn" class="btn">Info</button>
+    </div>
+  </header>
+
+  <section id="upload" class="upload">
+    <h2>Upload Your Video</h2>
+    <p>Upload a video about your culture and become part of our global project.</p>
+    <form id="uploadForm">
+      <input type="file" accept="video/*" id="videoInput" required>
+      <button type="submit" class="btn">Upload</button>
+    </form>
+
+    <button id="showVideosBtn" class="btn">Show Uploaded Videos</button>
+
+    <div id="videoGallery" class="video-gallery">
+      <h3>Uploaded Videos</h3>
+      <video controls src="video1.mp4"></video>
+      <video controls src="video2.mp4"></video>
+    </div>
+  </section>
+
+  <section class="about">
+    <h2>About Lowkey Kultur</h2>
+    <p>
+      We connect people through cultural stories, art, and music.  
+      Our goal is to make traditions visible and bring countries together.  
+      Every clip tells a story — your culture matters.
+    </p>
+  </section>
+
+  <section class="contact">
+    <h2>Contact</h2>
+    <p>Have questions? Write to us!</p>
+    <form>
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea placeholder="Your Message" required></textarea>
+      <button type="submit" class="btn">Send</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>© 2025 Lowkey Kultur – All rights reserved<br>
+    In cooperation with Haderslev Kommune</p>
+  </footer>
+
+  <div id="infoSlide">
+    <button id="backBtn">Back</button>
+    <h2>Kultur Day</h2>
+    <p>
+      Kultur Day is a special event where everyone can share their traditions.  
+      Countries are invited to send videos showing their art, music, and customs.  
+      All clips are combined into one big film shown in cinemas for everyone to experience.
+    </p>
+    <p>
+      After the screening, the audience can vote for the most inspiring country.  
+      The winning country is invited to Haderslev to present their culture live.
+    </p>
+    <p>
+      The winner receives free travel and accommodation — and together we celebrate with a colorful cultural festival.
+    </p>
+  </div>
+
+  <script>
+    const startScreen = document.getElementById("startScreen");
+    const codeInput = document.getElementById("codeInput");
+    const enterBtn = document.getElementById("enterBtn");
+    const errorMsg = document.getElementById("errorMsg");
+    enterBtn.addEventListener("click", () => {
+      const code = codeInput.value.trim();
+      if (code === "6767") {
+        startScreen.style.opacity = "0";
+        setTimeout(() => startScreen.style.display = "none", 800);
+      } else {
+        errorMsg.style.display = "block";
+        codeInput.value = "";
+      }
+    });
+
+    const uploadForm = document.getElementById("uploadForm");
+    const videoInput = document.getElementById("videoInput");
+    const videoGallery = document.getElementById("videoGallery");
+    const showVideosBtn = document.getElementById("showVideosBtn");
+    const infoBtn = document.getElementById("infoBtn");
+    const infoSlide = document.getElementById("infoSlide");
+    const backBtn = document.getElementById("backBtn");
+
+    showVideosBtn.addEventListener("click", () => {
+      if (videoGallery.style.display === "none" || videoGallery.style.display === "") {
+        videoGallery.style.display = "block";
+        showVideosBtn.textContent = "Hide Videos";
+      } else {
+        videoGallery.style.display = "none";
+        showVideosBtn.textContent = "Show Uploaded Videos";
+      }
+    });
+
+    uploadForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const file = videoInput.files[0];
+      if (file) {
+        const videoURL = URL.createObjectURL(file);
+        const newVideo = document.createElement("video");
+        newVideo.src = videoURL;
+        newVideo.controls = true;
+        videoGallery.appendChild(newVideo);
+        videoGallery.style.display = "block";
+        showVideosBtn.textContent = "Hide Videos";
+        uploadForm.reset();
+      }
+    });
+
+    infoBtn.addEventListener("click", () => {
+      infoSlide.style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    backBtn.addEventListener("click", () => {
+      infoSlide.style.display = "none";
+    });
+  </script>
+</body>
+</html>
+
